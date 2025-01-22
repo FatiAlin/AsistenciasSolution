@@ -1,0 +1,66 @@
+﻿@page "/Lista"
+@using AsistenciasShared; 
+@inject Servicios.AsistenciasService Asistencia; 
+<style>
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+    }
+    th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+    th {
+    background-color: #f4f4f4;
+    }
+    tr:nth-child(even) {
+    background-color: #f9f9f9;
+    }
+    tr:hover {
+    background-color: #f1f1f1;
+    }
+</style>
+<h3>ListadeAsistencias</h3>
+
+
+@if (ListaAsistencia != null && ListaAsistencia.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>EmpleadoId</th>
+                <th>Fecha</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in ListaAsistencia)
+            {
+                <tr>       
+                    <td>@item.EmpleadoId</td>
+                    <td>@item.Fecha</td>
+                    <td>@item.HoraEntrada</td>
+                    <td>@item.HoraSalida</td>
+                    <td><button>Editar</button><button onclick="">Eliminar</button></td>
+                </tr> 
+            } 
+        </tbody>
+    </table>
+}
+@code {
+    private readonly HttpClient _httpClient;
+    private List<AsistenciaDTO> ListaAsistencia;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaAsistencia = await Asistencia.GetListaAsistencia();
+    }
+
+    
+}
